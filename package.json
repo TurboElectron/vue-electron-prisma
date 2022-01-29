@@ -1,12 +1,12 @@
 {
   "name": "vue-electron",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "yarn electron:serve",
+    "build": "yarn electron:build",
     "lint": "vue-cli-service lint",
-    "electron:build": "vue-cli-service electron:build",
+    "electron:build": "vue-cli-service electron:build -w",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
@@ -17,9 +17,6 @@
     "@prisma/client": "^3.7.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
-    "equal-vue": "^0.79.3",
-    "material-design-icons-iconfont": "^6.1.1",
-    "materialize-css": "^1.0.0-rc.2",
     "quasar": "^2.0.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
@@ -34,6 +31,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "autoprefixer": "^9.8.8",
     "babel-eslint": "^10.1.0",
     "electron": "^13.0.0",
     "electron-devtools-installer": "^3.1.0",
@@ -42,6 +40,7 @@
     "prisma": "^3.7.0",
     "sass": "1.32.12",
     "sass-loader": "^10.1.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@2.2.17",
     "typescript": "~4.1.5",
     "vue-cli-plugin-electron-builder": "~2.1.1",
     "vue-cli-plugin-quasar": "^4.0.4"

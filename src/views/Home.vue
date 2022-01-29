@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md">
+    <div class="text-red">11</div>
     <q-table
       title="Treats"
       :rows="rows"
