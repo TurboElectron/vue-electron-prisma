@@ -50,68 +50,56 @@
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
 // @ is an alias to /src
 import { prisma } from "../db";
+import {ref} from "vue";
+const rows= ref([])
+ const   columns= ref([
+   {
+     name: "name",
+     label: "Name",
+     align: "left",
+     field: "name",
+     sortable: true,
+     filter: true,
+   },
+   {
+     name: "email",
+     label: "Email",
+     align: "left",
+     field: "email",
+     sortable: true,
+     filter: true,
+   },
+ ])
+ const   filter = ref("")
+ const   loading = ref(false)
+ const   prompt = ref(false)
+  const  user= ref({
+    email: "",
+    name: "",
+  })
+const fetchData = ()=> {
+  loading.value = true;
 
-export default {
-  name: "Home",
-  components: {},
-  data() {
-    return {
-      rows: [],
-      columns: [
-        {
-          name: "name",
-          label: "Name",
-          align: "left",
-          field: "name",
-          sortable: true,
-          filter: true,
+  prisma.user.findMany().then((data) => {
+    rows.value = data;
+    loading.value = false;
+  });
+}
+fetchData()
+const addUser =()=> {
+  prisma.user
+      .create({
+        data: {
+          email: user.value.email,
+          name: user.value.name,
         },
-        {
-          name: "email",
-          label: "Email",
-          align: "left",
-          field: "email",
-          sortable: true,
-          filter: true,
-        },
-      ],
-      filter: "",
-      loading: false,
-      prompt: false,
-      user: {
-        email: "",
-        name: "",
-      },
-    };
-  },
-  created() {
-    this.fetchData();
-  },
-  methods: {
-    fetchData() {
-      this.loading = true;
-
-      prisma.user.findMany().then((data) => {
-        this.rows = data;
-        this.loading = false;
+      })
+      .then(() => {
+        fetchData();
+        prompt.value = false;
       });
-    },
-    addUser() {
-      prisma.user
-        .create({
-          data: {
-            email: this.user.email,
-            name: this.user.name,
-          },
-        })
-        .then(() => {
-          this.fetchData();
-          this.prompt = false;
-        });
-    },
-  },
-};
+}
 </script>

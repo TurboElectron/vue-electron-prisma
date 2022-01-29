@@ -94,18 +94,8 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts" setup>
 import { ref } from "vue";
 
-export default {
-  name: "LayoutDefault",
-
-  components: {},
-
-  setup() {
-    return {
-      leftDrawerOpen: ref(false),
-    };
-  },
-};
+const leftDrawerOpen = ref(false)
 </script>
