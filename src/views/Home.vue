@@ -83,7 +83,6 @@ const rows= ref([])
   })
 const fetchData = ()=> {
   loading.value = true;
-
   prisma.user.findMany().then((data) => {
     rows.value = data;
     loading.value = false;

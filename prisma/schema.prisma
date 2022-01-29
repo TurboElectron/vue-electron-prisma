@@ -1,21 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-// https://www.prisma.io/docs/concepts/components/prisma-migrate
-// npx prisma init --datasource-provider sqlite
-// npx prisma studio
-// 逆向生成数据模型
-// npx prisma introspect
-// npx prisma generate
-// npx prisma db push
-// npx prisma migrate dev --name init
-// prisma migrate dev --name added_job_title
-// npx prisma migrate dev
-// npx prisma migrate dev --create-only
-// npx prisma migrate deploy
 generator client {
   provider      = "prisma-client-js"
-  engineType    = "library"
   binaryTargets = ["native", "windows"]
+  engineType    = "library"
 }
 
 datasource db {
@@ -56,12 +42,12 @@ model Product {
   imageUrl        String
   alertQuantity   Int
   expirationDate  DateTime
-  family          Family            @relation(fields: [familyId], references: [id])
   familyId        Int
-  unit            Unit              @relation(fields: [unitId], references: [id])
   unitId          Int
   created         DateTime          @default(now())
   updated         DateTime          @default(now())
+  family          Family            @relation(fields: [familyId], references: [id])
+  unit            Unit              @relation(fields: [unitId], references: [id])
   ProductPurchase ProductPurchase[]
   ProductSale     ProductSale[]
   Stock           Stock[]
@@ -69,9 +55,7 @@ model Product {
 
 model ProductPurchase {
   id            Int      @id @default(autoincrement())
-  product       Product  @relation(fields: [productId], references: [id])
   productId     Int
-  purchase      Purchase @relation(fields: [purchaseId], references: [id])
   purchaseId    Int
   amount        Decimal
   price         Decimal
@@ -80,13 +64,13 @@ model ProductPurchase {
   subTotal      Decimal
   created       DateTime @default(now())
   updated       DateTime @default(now())
+  product       Product  @relation(fields: [productId], references: [id])
+  purchase      Purchase @relation(fields: [purchaseId], references: [id])
 }
 
 model ProductSale {
   id            Int      @id @default(autoincrement())
-  product       Product  @relation(fields: [productId], references: [id])
   productId     Int
-  sale          Sale     @relation(fields: [saleId], references: [id])
   saleId        Int
   amount        Decimal
   price         Decimal
@@ -95,19 +79,21 @@ model ProductSale {
   subTotal      Decimal
   created       DateTime @default(now())
   updated       DateTime @default(now())
+  product       Product  @relation(fields: [productId], references: [id])
+  sale          Sale     @relation(fields: [saleId], references: [id])
 }
 
 model Purchase {
   id                 Int               @id @default(autoincrement())
   code               String
   date               DateTime          @default(now())
-  company            Company           @relation(fields: [companyId], references: [id])
   companyId          Int
   totalPrice         Decimal
   totalUntaxedAmount Decimal
   totalTaxes         Decimal
   created            DateTime          @default(now())
   updated            DateTime          @default(now())
+  company            Company           @relation(fields: [companyId], references: [id])
   ProductPurchase    ProductPurchase[]
 }
 
@@ -115,23 +101,23 @@ model Sale {
   id                 Int           @id @default(autoincrement())
   code               String
   date               DateTime      @default(now())
-  customer           Customer      @relation(fields: [customerId], references: [id])
   customerId         Int
   totalPrice         Decimal
   totalUntaxedAmount Decimal
   totalTaxes         Decimal
   created            DateTime      @default(now())
   updated            DateTime      @default(now())
+  customer           Customer      @relation(fields: [customerId], references: [id])
   ProductSale        ProductSale[]
 }
 
 model Stock {
   id        Int      @id @default(autoincrement())
-  product   Product  @relation(fields: [productId], references: [id])
   productId Int
   amount    Int
   created   DateTime @default(now())
   updated   DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id])
 }
 
 model Unit {
